@@ -1,0 +1,6 @@
+{
+  "name": "seo-skills",
+  "version": "0.1.1",
+  "description": "SEO skills for AI coding agents. Audit any site from its URL and get a score, the fixes that matter and the evidence behind each one.",
+  "skills": "./skills/"
+}

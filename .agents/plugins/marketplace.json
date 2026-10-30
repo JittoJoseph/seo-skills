@@ -1,0 +1,10 @@
+{
+  "name": "seo-skills",
+  "plugins": [
+    {
+      "name": "seo-skills",
+      "source": { "source": "local", "path": "./" },
+      "policy": { "installation": "AVAILABLE" }
+    }
+  ]
+}

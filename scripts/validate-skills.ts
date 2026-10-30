@@ -67,6 +67,11 @@ function validateRepo(): string[] {
   const versionFile = readFileSync(join(ROOT, 'skills/seo-audit/scripts/lib/version.ts'), 'utf8');
   if (!versionFile.includes(`'${pkg.version}'`)) errors.push(`version.ts does not match package.json version ${pkg.version}`);
 
+  for (const manifest of ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json']) {
+    const { version } = JSON.parse(readFileSync(join(ROOT, manifest), 'utf8'));
+    if (version !== pkg.version) errors.push(`${manifest} has version ${version}, expected ${pkg.version}`);
+  }
+
   const changelog = readFileSync(join(ROOT, 'CHANGELOG.md'), 'utf8');
   if (!changelog.includes(`## ${pkg.version}`) && !changelog.includes(`## [${pkg.version}]`)) {
     errors.push(`CHANGELOG.md has no entry for ${pkg.version}`);
