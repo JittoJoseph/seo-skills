@@ -73,3 +73,15 @@ test('a hostile pattern cannot hang matching', () => {
   ruleMatches(pattern, `/${'a'.repeat(50000)}`);
   assert.ok(performance.now() - started < 1000);
 });
+
+
+test('compares UTF-8 and percent-encoded paths without decoding reserved separators', () => {
+  const robots = parseRobots('User-agent: *\nDisallow: /café\nDisallow: /private\nDisallow: /a%2Fb');
+  assert.equal(isAllowed(robots, 'Googlebot', '/caf%C3%A9'), false);
+  assert.equal(isAllowed(robots, 'Googlebot', '/caf%c3%a9'), false);
+  assert.equal(isAllowed(robots, 'Googlebot', '/%70rivate'), false);
+  assert.equal(isAllowed(robots, 'Googlebot', '/a%2fb'), false);
+  assert.equal(isAllowed(robots, 'Googlebot', '/a/b'), true);
+  const tie = parseRobots('User-agent: *\nDisallow: /%70rivate\nAllow: /private');
+  assert.equal(isAllowed(tie, 'Googlebot', '/private'), true);
+});
