@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" width="1200" height="540" shape-rendering="crispEdges" role="img" aria-label="Results for a fresh npm create vite app: 58 out of 100, with 9 failed checks, 2 warnings and 13 passed. Top problems: empty HTML, no sitemap, fake 200s, no links and no meta description.">
 <clipPath id="f"><path d="M12 0H1188V4H1196V12H1200V528H1196V536H1188V540H12V536H4V528H0V12H4V4H12Z"/></clipPath>
 <style>
-.a0{animation:a0 12s steps(1) infinite}@keyframes a0{0%{opacity:0}5.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a1{animation:a1 12s steps(1) infinite}@keyframes a1{0%{opacity:0}10.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a2{animation:a2 12s steps(1) infinite}@keyframes a2{0%{opacity:0}15.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a3{animation:a3 12s steps(1) infinite}@keyframes a3{0%{opacity:0}20.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a4{animation:a4 12s steps(1) infinite}@keyframes a4{0%{opacity:0}25.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a5{animation:a5 12s steps(1) infinite}@keyframes a5{0%{opacity:0}30.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a6{animation:a6 12s steps(1) infinite}@keyframes a6{0%{opacity:0}35.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
+.a0{animation:a0 12s steps(1) infinite}@keyframes a0{0%{opacity:0}5.00%{opacity:1}100%{opacity:1}}
+.a1{animation:a1 12s steps(1) infinite}@keyframes a1{0%{opacity:0}10.00%{opacity:1}100%{opacity:1}}
+.a2{animation:a2 12s steps(1) infinite}@keyframes a2{0%{opacity:0}15.00%{opacity:1}100%{opacity:1}}
+.a3{animation:a3 12s steps(1) infinite}@keyframes a3{0%{opacity:0}20.00%{opacity:1}100%{opacity:1}}
+.a4{animation:a4 12s steps(1) infinite}@keyframes a4{0%{opacity:0}25.00%{opacity:1}100%{opacity:1}}
+.a5{animation:a5 12s steps(1) infinite}@keyframes a5{0%{opacity:0}30.00%{opacity:1}100%{opacity:1}}
+.a6{animation:a6 12s steps(1) infinite}@keyframes a6{0%{opacity:0}35.00%{opacity:1}100%{opacity:1}}
 .fa{animation:fa .4s steps(1) infinite}@keyframes fa{0%{opacity:1}50%{opacity:0}100%{opacity:0}}.fb{animation:fb .4s steps(1) infinite}@keyframes fb{0%{opacity:0}50%{opacity:1}100%{opacity:1}}
 .pace{animation:pace 12s steps(90) infinite alternate}@keyframes pace{to{transform:translateX(720px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
