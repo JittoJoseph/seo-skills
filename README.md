@@ -1,38 +1,70 @@
+<p align="center">
+  <img src="assets/hero.svg" alt="SEO Skills: your AI agent built the site. In a browser it looks complete, but a crawler reading the raw HTML sees 0 characters of text." width="100%">
+</p>
+
 <h1 align="center">SEO Skills</h1>
 
 <p align="center">
-  <b>Your AI agent built the site. Now find out if search engines can read it.</b>
+  <b>Free SEO audits inside your AI coding agent.</b><br>
+  Find out what search engines and AI crawlers can actually read, and what to fix first.
 </p>
 
 <p align="center">
+  <a href="https://github.com/JittoJoseph/seo-skills/actions/workflows/ci.yml"><img src="https://github.com/JittoJoseph/seo-skills/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <a href="https://github.com/JittoJoseph/seo-skills/releases"><img src="https://img.shields.io/github/v/release/JittoJoseph/seo-skills?color=22c55e" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
   <img src="https://img.shields.io/badge/TypeScript-strict-3178c6" alt="Strict TypeScript">
-  <img src="https://img.shields.io/badge/node-%3E%3D22.18-339933" alt="Node 22.18 or newer">
-  <img src="https://img.shields.io/badge/dependencies-0-brightgreen" alt="No runtime dependencies">
+  <img src="https://img.shields.io/badge/runtime%20dependencies-0-brightgreen" alt="No runtime dependencies">
 </p>
 
 <p align="center">
   <a href="#install">Install</a> ·
+  <a href="#see-it-work">Demo</a> ·
   <a href="#what-it-catches">What it catches</a> ·
-  <a href="#example-report">Example</a> ·
   <a href="#how-the-score-works">Scoring</a> ·
   <a href="#roadmap">Roadmap</a>
 </p>
 
-SEO Skills gives your coding agent a real SEO audit. Point it at any URL and it reads the site the way a crawler does, then returns a score, the fixes that matter most, and the evidence behind every finding.
+Point your agent at any URL and it reads the site the way a crawler does. You get a score, the fixes that matter most, and the evidence behind every finding.
 
 - **Free and open source.** MIT licensed, with no account and no API keys.
 - **Nothing to set up.** Node runs the TypeScript directly, so there are no packages to install and no build step.
 - **Evidence, not opinions.** Scripted checks produce the findings, so results are repeatable. Your agent explains them.
 - **Works with your agent.** Built on the open [Agent Skills](https://agentskills.io) format, for Claude Code, Codex, Cursor and others that support it.
 
+## See it work
+
+We created a fresh app with `npm create vite`, built it, and audited it. It looks fine in a browser, and **it scores 58 out of 100**:
+
+<p align="center">
+  <img src="assets/demo.svg" alt="An SEO audit of a fresh Vite app scores 58 out of 100, with 9 failed checks. The homepage has 0 characters of text in the raw HTML, there is no sitemap, and made-up URLs return 200." width="100%">
+</p>
+
+This is real output, shortened to fit. The full report also explains why each finding matters and how to fix it. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
+
 ## Install
+
+**Claude Code**
+
+```text
+/plugin marketplace add JittoJoseph/seo-skills
+/plugin install seo-skills@seo-skills
+```
+
+**Codex**
+
+```bash
+codex plugin marketplace add JittoJoseph/seo-skills
+codex plugin add seo-skills@seo-skills
+```
+
+**Any agent that supports Agent Skills**
 
 ```bash
 npx skills add JittoJoseph/seo-skills
 ```
 
-Or copy the skills into your agent's folder:
+**By hand**
 
 ```bash
 git clone https://github.com/JittoJoseph/seo-skills.git
@@ -41,13 +73,15 @@ cp -r seo-skills/skills/* ~/.claude/skills/
 
 ## Run your first audit
 
-Ask your agent to audit a site, or type:
+Just ask your agent:
 
 ```text
-/seo audit https://yoursite.com
+Audit the SEO of https://yoursite.com
 ```
 
-It also works on a local dev server, and without an agent:
+You can also use a command. In Claude Code it's `/seo-skills:seo audit <url>` when installed as a plugin, and `/seo audit <url>` when installed with `npx skills` or by hand.
+
+It works on a local dev server too, and it doesn't need an agent:
 
 ```bash
 node skills/seo-audit/scripts/audit.ts http://localhost:3000
@@ -60,7 +94,7 @@ Starter templates and AI builders leave behind problems that are easy to miss, b
 | Problem | Why it hurts |
 |---|---|
 | Content exists only in JavaScript | Many AI crawlers don't run JavaScript, so they see an empty page |
-| The title is still "Vite + React" | That text can become your headline in search results |
+| The title or description is a template default | Text like "Vite + React" can become your headline in search results |
 | Made-up URLs return 200 | Search engines can treat them as soft 404s and index junk URLs |
 | Every canonical points at the homepage | This asks search engines to drop your other pages |
 | A staging `noindex` or robots.txt block shipped | Your pages stay out of search results |
@@ -79,31 +113,6 @@ In total it runs 38 checks across six areas:
 | AI search | Whether AI search crawlers are allowed in robots.txt |
 
 See every check, with its weight and how to fix it, in [checks.md](skills/seo-audit/references/checks.md).
-
-## Example report
-
-This is real output from auditing `example.com`:
-
-```text
-Foundation score: 69/100 (C), with 5 failed, 7 warnings and 14 passed.
-
-Fix first
-
-1. A sitemap exists: No sitemap in robots.txt or at /sitemap.xml
-2. Pages have a meta description: /: no meta description
-3. Pages declare one canonical URL: /: no canonical
-4. Pages have a main heading: /: no <h1>
-5. Pages have Open Graph tags: /: missing og:title, og:description, og:image
-
-Crawling and indexing   73
-Rendering               67
-Titles and metadata     68
-Structured data         50
-Social sharing           0
-AI search              100
-```
-
-The full report also explains why each finding matters and how to fix it.
 
 ## How the score works
 
@@ -131,25 +140,16 @@ Node.js 22.18 or newer. Without Node, the skill falls back to a manual review wi
 ## Roadmap
 
 - [x] `/seo audit`: audit any site from its URL
+- [x] Plugin installs for Claude Code and Codex
 - [ ] `/seo fix`: have your agent fix the findings in your code
 - [ ] Framework-specific fixes for Next.js, Astro, Nuxt and WordPress
 - [ ] `/seo shopify`: SEO checks and fixes for Shopify stores
-- [ ] Claude Code and Codex plugin installs
 
 ## Contributing
 
-Found a wrong result or a check that's missing? [Open an issue](https://github.com/JittoJoseph/seo-skills/issues) with the URL and what you expected. False positives are especially useful to report.
+Found a wrong result or a missing check? [Open an issue](https://github.com/JittoJoseph/seo-skills/issues/new/choose) with the URL and what you expected. False positives are especially useful to report.
 
-To work on the code:
-
-```bash
-npm test
-npm install
-npm run typecheck
-npm run validate
-```
-
-The tests run without installing anything, and `npm install` only adds the type checker. Check docs are generated from the code, so run `npm run docs` after changing a check.
+To work on the code, see [CONTRIBUTING.md](CONTRIBUTING.md). For security problems, see [SECURITY.md](SECURITY.md).
 
 ## License
 
