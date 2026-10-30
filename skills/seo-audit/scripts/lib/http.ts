@@ -36,7 +36,21 @@ export function isPrivateHost(hostname: string): boolean {
   if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.local') || host.endsWith('.internal')) {
     return true;
   }
-  if (host.includes(':')) return host === '::1' || /^(fe80|fc|fd)/.test(host);
+  if (host.includes(':')) {
+    let address: string;
+    try {
+      address = new URL(`http://[${host}]/`).hostname.slice(1, -1);
+    } catch {
+      return false;
+    }
+    const mapped = /^::ffff:([0-9a-f]+):([0-9a-f]+)$/.exec(address);
+    if (mapped) {
+      const high = parseInt(mapped[1], 16);
+      const low = parseInt(mapped[2], 16);
+      return isPrivateHost(`${high >> 8}.${high & 255}.${low >> 8}.${low & 255}`);
+    }
+    return address === '::' || address === '::1' || /^(fe[89ab]|fc|fd)/.test(address);
+  }
   const octets = host.split('.').map(Number);
   if (octets.length === 4 && octets.every((n) => Number.isInteger(n) && n >= 0 && n <= 255)) {
     const [a, b] = octets;
