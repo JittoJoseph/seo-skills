@@ -77,3 +77,12 @@ test('recognises private hosts without false alarms', () => {
     assert.equal(isPrivateHost(host), false, host);
   }
 });
+
+
+test('blocks IPv4-mapped IPv6 private addresses before fetching', async () => {
+  for (const host of ['[::ffff:127.0.0.1]', '[::ffff:a00:1]', '[::ffff:c0a8:101]', '[fe90::1]', '[::]', '[0:0:0:0:0:0:0:1]']) {
+    const response = await fetchUrl(`http://${host}/`);
+    assert.equal(response.error, 'refused private address', host);
+  }
+  assert.equal(isPrivateHost('[::ffff:808:808]'), false);
+});
