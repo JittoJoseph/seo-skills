@@ -56,6 +56,11 @@ const sites: Record<string, Fixture> = {
     if (path === '/sitemap.xml') return [200, { 'content-type': 'application/xml' }, `<urlset><url><loc>${base}/</loc></url><url><loc>${base}/moved</loc></url></urlset>`];
     return sites.good(path, base);
   },
+  sitemapNonHtml(path, base) {
+    if (path === '/download') return [200, { 'content-type': 'application/pdf' }, '%PDF'];
+    if (path === '/sitemap.xml') return [200, { 'content-type': 'application/xml' }, `<urlset><url><loc>${base}/</loc></url><url><loc>${base}/download</loc></url></urlset>`];
+    return sites.good(path, base);
+  },
   // A typical client-rendered starter that never had its defaults changed.
   spa() {
     return [
@@ -196,6 +201,13 @@ test('a sitemap URL that redirects is a real problem', async () => {
   assert.match(find(report, 'sitemap-urls-healthy').evidence.join(' '), /\/moved: redirects to \/about/);
 });
 
+test('non-HTML sitemap URLs are not treated as healthy pages', async () => {
+  const report = await audit('sitemapNonHtml');
+  assert.equal(find(report, 'sitemap-urls-healthy').status, 'fail');
+  assert.match(find(report, 'sitemap-urls-healthy').evidence.join(' '), /application\/pdf, not HTML/);
+  assert.equal(find(report, 'page-status').status, 'fail');
+});
+
 test('a client-rendered starter is caught', async () => {
   const report = await audit('spa');
   assert.equal(find(report, 'content-in-html').status, 'fail');
@@ -333,6 +345,8 @@ test('the CLI prints a report and uses exit codes', async () => {
   await assert.rejects(run(process.execPath, [CLI, url, '--fail-under', '101']), (error: unknown) => (error as { code?: number }).code === 1);
   await assert.rejects(run(process.execPath, [CLI]), (error: unknown) => (error as { code?: number }).code === 2);
   await assert.rejects(run(process.execPath, [CLI, url, '--pages', 'lots']), (error: unknown) => (error as { code?: number }).code === 2);
+  await assert.rejects(run(process.execPath, [CLI, url, '--pages', '0']), (error: unknown) => (error as { code?: number }).code === 2);
+  await assert.rejects(run(process.execPath, [CLI, url, '--timeout', '0']), (error: unknown) => (error as { code?: number }).code === 2);
 
   current = 'firewall';
   await assert.rejects(run(process.execPath, [CLI, url]), (error: unknown) => (error as { code?: number }).code === 3);

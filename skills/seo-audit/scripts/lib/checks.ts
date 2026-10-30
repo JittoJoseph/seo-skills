@@ -301,6 +301,7 @@ export const CHECKS: Check[] = [
       for (const page of sampled) {
         if (page.status !== 200) bad.push(`${pathOf(page.requested)}: returns ${page.status || page.error}`);
         else if (normalizeUrl(page.url) !== normalizeUrl(page.requested)) bad.push(`${pathOf(page.requested)}: redirects to ${pathOf(page.url)}`);
+        else if (!page.isHtml) bad.push(`${pathOf(page.requested)}: returns ${page.headers['content-type'] ?? 'non-HTML content'}, not HTML`);
         else if (page.noindex) bad.push(`${pathOf(page.requested)}: marked noindex`);
       }
       if (bad.length === 0) return pass(`${sampled.length} sampled URL(s) healthy`);
@@ -336,9 +337,12 @@ export const CHECKS: Check[] = [
     why: 'Pages that return errors cannot be indexed, and links to them waste crawl budget.',
     fix: 'Fix the page, or remove links and sitemap entries that point at it.',
     run(ctx) {
-      const bad = ctx.pages.filter((page) => !page.ok);
+      const bad = ctx.pages.filter((page) => !page.ok || !page.isHtml);
       if (bad.length === 0) return pass(`${ctx.pages.length} page(s) returned 200`);
-      const shown = bad.slice(0, 5).map((page) => `${pathOf(page.requested)}: ${page.status || page.error}`);
+      const shown = bad.slice(0, 5).map((page) => {
+        if (!page.ok) return `${pathOf(page.requested)}: ${page.status || page.error}`;
+        return `${pathOf(page.requested)}: returns ${page.headers['content-type'] ?? 'non-HTML content'}, not HTML`;
+      });
       return { status: bad.length / ctx.pages.length >= 0.25 ? 'fail' : 'warn', evidence: shown };
     },
   },

@@ -12,6 +12,8 @@ All notable changes to this project are recorded here. Versions follow [Semantic
 - The private address guard now also covers IPv4-mapped IPv6 and more link-local addresses.
 - Added a contributing guide, a security policy, issue templates and agent instructions.
 - Added a release workflow, and an example report that a workflow keeps current.
+- Sitemap URLs that return non-HTML content are now flagged instead of treated as healthy pages.
+- The CLI now rejects zero-valued page and request-timeout limits.
 
 ## 0.1.0 - 2026-10-30
 
