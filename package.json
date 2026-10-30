@@ -1,0 +1,27 @@
+{
+  "name": "seo-skills",
+  "version": "0.1.0",
+  "description": "SEO skills for AI coding agents. Audit any site from its URL with scripted, evidence-backed checks.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Jitto Joseph",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JittoJoseph/seo-skills.git"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --test \"tests/*.test.ts\"",
+    "typecheck": "tsc",
+    "validate": "node scripts/validate-skills.ts",
+    "docs": "node scripts/gen-checks-doc.ts",
+    "audit": "node skills/seo-audit/scripts/audit.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2"
+  }
+}
