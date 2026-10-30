@@ -14,6 +14,7 @@ All notable changes to this project are recorded here. Versions follow [Semantic
 - Added a release workflow, and an example report that a workflow keeps current.
 - Sitemap URLs that return non-HTML content are now flagged instead of treated as healthy pages.
 - The CLI now rejects zero-valued page and request-timeout limits.
+- Oversized responses are now reported as incomplete instead of being scored from partial HTML.
 
 ## 0.1.0 - 2026-10-30
 

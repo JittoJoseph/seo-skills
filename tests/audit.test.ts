@@ -61,6 +61,27 @@ const sites: Record<string, Fixture> = {
     if (path === '/sitemap.xml') return [200, { 'content-type': 'application/xml' }, `<urlset><url><loc>${base}/</loc></url><url><loc>${base}/download</loc></url></urlset>`];
     return sites.good(path, base);
   },
+  oversized(path, base) {
+    if (path === '/large') {
+      return [
+        200,
+        { 'content-type': 'text/html' },
+        `<html><head><title>Large page</title></head><body><h1>Large page</h1>${'x'.repeat(9 * 1024 * 1024)}</body></html>`,
+      ];
+    }
+    if (path === '/sitemap.xml') return [200, { 'content-type': 'application/xml' }, `<urlset><url><loc>${base}/</loc></url><url><loc>${base}/large</loc></url></urlset>`];
+    return sites.good(path, base);
+  },
+  oversizedHome(path) {
+    if (path === '/') {
+      return [
+        200,
+        { 'content-type': 'text/html' },
+        `<html><head><title>Large homepage</title></head><body><h1>Large homepage</h1>${'x'.repeat(9 * 1024 * 1024)}</body></html>`,
+      ];
+    }
+    return [404, { 'content-type': 'text/html' }, 'Not found'];
+  },
   // A typical client-rendered starter that never had its defaults changed.
   spa() {
     return [
@@ -205,6 +226,19 @@ test('non-HTML sitemap URLs are not treated as healthy pages', async () => {
   const report = await audit('sitemapNonHtml');
   assert.equal(find(report, 'sitemap-urls-healthy').status, 'fail');
   assert.match(find(report, 'sitemap-urls-healthy').evidence.join(' '), /application\/pdf, not HTML/);
+  assert.equal(find(report, 'page-status').status, 'fail');
+});
+
+test('an oversized homepage is not scored from partial HTML', async () => {
+  const report = await auditRaw('oversizedHome');
+  assert.equal(report.state, 'inconclusive');
+  assert.match(report.reason, /exceeded the audit response-size limit/);
+});
+
+test('an oversized sampled page is flagged as incomplete', async () => {
+  const report = await audit('oversized');
+  assert.equal(find(report, 'sitemap-urls-healthy').status, 'fail');
+  assert.match(find(report, 'sitemap-urls-healthy').evidence.join(' '), /not fully checked/);
   assert.equal(find(report, 'page-status').status, 'fail');
 });
 

@@ -113,6 +113,7 @@ function buildPage(
     headers: response.headers ?? {},
     ms: Math.round(response.ms ?? 0),
     bytes: response.bytes ?? 0,
+    truncated: response.truncated ?? false,
     title: parsed.titles[0] || null,
     description: metaContent(parsed, 'description') || null,
     noindex: Boolean(noindexSource),
@@ -214,6 +215,7 @@ function inconclusiveReason(home: FetchResponse): string | null {
   if (status === 503 || status >= 600) return `The site returned ${status}. It may be down, or a firewall may be challenging automated requests. Try again, or audit a local or staging copy.`;
   if (status < 200 || status >= 300) return `The homepage returned ${status}. Fix that first, because nothing else can be judged while it fails.`;
   if (!isHtmlResponse(home)) return `The URL returned ${home.headers['content-type'] ?? 'an unknown content type'} rather than an HTML page.`;
+  if (home.truncated) return 'The homepage exceeded the audit response-size limit, so the HTML could not be checked completely.';
   return null;
 }
 
