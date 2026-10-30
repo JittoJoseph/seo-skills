@@ -1,0 +1,15 @@
+{
+  "name": "seo-skills",
+  "description": "SEO skills for AI coding agents",
+  "owner": {
+    "name": "Jitto Joseph",
+    "url": "https://github.com/JittoJoseph"
+  },
+  "plugins": [
+    {
+      "name": "seo-skills",
+      "source": "./",
+      "description": "Audit any site from its URL and get a score, the fixes that matter and the evidence behind each one."
+    }
+  ]
+}
