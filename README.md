@@ -1,20 +1,13 @@
-<p align="center">
-  <img src="assets/hero.svg" alt="SEO Skills: your AI agent built the site. In a browser it looks complete, but a crawler reading the raw HTML sees 0 characters of text." width="100%">
-</p>
-
-<h1 align="center">SEO Skills</h1>
-
-<p align="center">
-  <b>Free SEO audits inside your AI coding agent.</b><br>
-  Find out what search engines and AI crawlers can actually read, and what to fix first.
-</p>
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg">
+    <img src="assets/hero-light.svg" alt="SEO Skills. Your agent built the site. Can search engines read it?" width="100%">
+  </picture>
+</h1>
 
 <p align="center">
-  <a href="https://github.com/JittoJoseph/seo-skills/actions/workflows/ci.yml"><img src="https://github.com/JittoJoseph/seo-skills/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
-  <a href="https://github.com/JittoJoseph/seo-skills/releases"><img src="https://img.shields.io/github/v/release/JittoJoseph/seo-skills?color=22c55e" alt="Latest release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
-  <img src="https://img.shields.io/badge/TypeScript-strict-3178c6" alt="Strict TypeScript">
-  <img src="https://img.shields.io/badge/runtime%20dependencies-0-brightgreen" alt="No runtime dependencies">
+  Free SEO audits inside your AI coding agent. Find out what search engines<br>
+  and AI crawlers can actually read, and what to fix first.
 </p>
 
 <p align="center">
@@ -36,11 +29,12 @@ Point your agent at any URL and it reads the site the way a crawler does. You ge
 
 We created a fresh app with `npm create vite`, built it, and audited it. It looks fine in a browser, and **it scores 58 out of 100**:
 
-<p align="center">
-  <img src="assets/demo.svg" alt="An SEO audit of a fresh Vite app scores 58 out of 100, with 9 failed checks. The homepage has 0 characters of text in the raw HTML, there is no sitemap, and made-up URLs return 200." width="100%">
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/demo-dark.svg">
+  <img src="assets/demo-light.svg" alt="An SEO audit of a fresh npm create vite app scores 58 out of 100, with 9 failed checks. The homepage has 0 characters of text in the raw HTML, there is no sitemap, made-up URLs return 200, there are no crawlable links, and there is no meta description." width="100%">
+</picture>
 
-This is real output, shortened to fit. The full report also explains why each finding matters and how to fix it. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
+These are real results, shortened to the top five fixes. The full report also explains why each finding matters and how to fix it. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
 
 ## Install
 
