@@ -1,0 +1,25 @@
+name: Bug
+description: The skill or script failed or crashed
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the command you ran and the error.
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent
+      placeholder: Claude Code, Codex, Cursor, or none
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      description: Run node --version. The minimum is 22.18.
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
