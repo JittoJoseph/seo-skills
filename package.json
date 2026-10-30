@@ -1,6 +1,6 @@
 {
   "name": "seo-skills",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SEO skills for AI coding agents. Audit any site from its URL with scripted, evidence-backed checks.",
   "private": true,
   "type": "module",

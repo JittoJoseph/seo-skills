@@ -2,6 +2,17 @@
 
 All notable changes to this project are recorded here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 - 2026-10-30
+
+- Install as a plugin in Claude Code and Codex.
+- The report no longer says a score was capped when the cap did not lower it.
+- robots.txt rules now match percent-encoded and non-ASCII paths the way RFC 9309 describes.
+- A closing tag like `</scripture>` no longer ends a script or title early.
+- Unknown HTML entities such as `&constructor;` are left as written.
+- The private address guard now also covers IPv4-mapped IPv6 and more link-local addresses.
+- Added a contributing guide, a security policy, issue templates and agent instructions.
+- Added a release workflow, and an example report that a workflow keeps current.
+
 ## 0.1.0 - 2026-10-30
 
 First release.
