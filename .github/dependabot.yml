@@ -8,3 +8,7 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # The types must match the oldest Node version the skill supports.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
