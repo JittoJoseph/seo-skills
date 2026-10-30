@@ -41,7 +41,14 @@ export function renderMarkdown(report: AuditReport): string {
   ];
 
   if (report.cap) {
-    lines.push(`The score is capped at ${report.cap.at} because ${report.cap.reasons.join(', and ')}. Fix that first. Without the cap it would be ${report.uncapped_score}.`, '');
+    const reasons = report.cap.reasons.join(', and ');
+    // A cap only needs explaining when it actually lowered the score.
+    lines.push(
+      report.uncapped_score > report.cap.at
+        ? `The score is capped at ${report.cap.at} because ${reasons}. Fix that first. Without the cap it would be ${report.uncapped_score}.`
+        : `Fix this first: ${reasons}.`,
+      '',
+    );
   }
 
   lines.push(

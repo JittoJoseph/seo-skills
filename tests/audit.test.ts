@@ -172,6 +172,12 @@ test('tidy tags cannot hide an empty client-rendered page', async () => {
   assert.match(renderMarkdown(report), /capped at 60 because the homepage has almost no content/);
 });
 
+test('a cap is only described as a cap when it lowered the score', async () => {
+  const markdown = renderMarkdown(await audit('spa'));
+  assert.doesNotMatch(markdown, /capped at 60/);
+  assert.match(markdown, /Fix this first: the homepage has almost no content/);
+});
+
 test('short text on a static page is not called client-rendered', async () => {
   const report = await audit('shortStatic');
   assert.equal(find(report, 'content-in-html').status, 'pass');
