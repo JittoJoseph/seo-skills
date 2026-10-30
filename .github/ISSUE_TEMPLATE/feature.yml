@@ -1,0 +1,17 @@
+name: New check or feature
+description: Suggest a check or a skill
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What should it catch or do?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Why does it matter?
+      description: Link to official documentation or real-world evidence where you can. Checks need a reason beyond common SEO advice.
+    validations:
+      required: true
