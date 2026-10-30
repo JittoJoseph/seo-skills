@@ -21,6 +21,7 @@ export interface Page {
   headers: Record<string, string>;
   ms: number;
   bytes: number;
+  truncated: boolean;
   title: string | null;
   description: string | null;
   noindex: boolean;
