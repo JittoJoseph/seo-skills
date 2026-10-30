@@ -91,11 +91,21 @@ export function ruleMatches(pattern: string, path: string): boolean {
   return anchored ? cursor === path.length || body.endsWith('*') : true;
 }
 
+// Compare UTF-8 octets consistently, decoding only unreserved ASCII escapes.
+function normalizePath(path: string): string {
+  return path.replace(/[^\x00-\x7f]/gu, (char) => [...Buffer.from(char)].map((byte) => `%${byte.toString(16).padStart(2, '0')}`).join(''))
+    .replace(/%[0-9a-f]{2}/gi, (escape) => {
+      const char = String.fromCharCode(parseInt(escape.slice(1), 16));
+      return /^[a-z0-9._~-]$/i.test(char) ? char : escape.toUpperCase();
+    });
+}
+
 export function isAllowed(robots: Robots | null | undefined, agent: string, path: string): boolean {
   if (!robots) return true;
-  const target = path.startsWith('/') ? path : `/${path}`;
+  const target = normalizePath(path.startsWith('/') ? path : `/${path}`);
   let best: RobotsRule | null = null;
-  for (const rule of rulesFor(robots, agent)) {
+  for (const original of rulesFor(robots, agent)) {
+    const rule = { ...original, path: normalizePath(original.path) };
     if (!ruleMatches(rule.path, target)) continue;
     if (
       best === null ||
