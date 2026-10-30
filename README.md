@@ -1,8 +1,5 @@
 <h1 align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg">
-    <img src="assets/hero-light.svg" alt="SEO Skills. Your agent built the site. Can search engines read it?" width="100%">
-  </picture>
+  <img src="assets/hero.svg" alt="SEO Skills. A little crawler bug walks across a website and finds SEO bugs: empty HTML, no sitemap, fake 200s and no links. The score drops to 58 out of 100, the real result for a fresh Vite app." width="100%">
 </h1>
 
 <p align="center">
@@ -29,12 +26,9 @@ Point your agent at any URL and it reads the site the way a crawler does. You ge
 
 We created a fresh app with `npm create vite`, built it, and audited it. It looks fine in a browser, and **it scores 58 out of 100**:
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/demo-dark.svg">
-  <img src="assets/demo-light.svg" alt="An SEO audit of a fresh npm create vite app scores 58 out of 100, with 9 failed checks. The homepage has 0 characters of text in the raw HTML, there is no sitemap, made-up URLs return 200, there are no crawlable links, and there is no meta description." width="100%">
-</picture>
+<img src="assets/demo.svg" alt="Results for a fresh npm create vite app: 58 out of 100, with 9 failed checks, 2 warnings and 13 passed. Top problems: empty HTML, no sitemap, fake 200s, no links and no meta description." width="100%">
 
-These are real results, shortened to the top five fixes. The full report also explains why each finding matters and how to fix it. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
+These are real results, showing the top five fixes. "Fake 200s" means made-up URLs return 200 instead of a real 404. The full report also explains why each finding matters and how to fix it. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
 
 ## Install
 
