@@ -4,32 +4,32 @@
 .c0{animation:c0 40s steps(10) infinite alternate}@keyframes c0{to{transform:translateX(40px)}}
 .c1{animation:c1 60s steps(15) infinite alternate}@keyframes c1{to{transform:translateX(60px)}}
 .c2{animation:c2 50s steps(10) infinite alternate}@keyframes c2{to{transform:translateX(-40px)}}
-.a0{animation:a0 16s steps(1) infinite}@keyframes a0{0%{opacity:1}18.13%{opacity:0}100%{opacity:0}}
-.a1{animation:a1 16s steps(1) infinite}@keyframes a1{0%{opacity:0}18.13%{opacity:1}35.62%{opacity:0}100%{opacity:0}}
-.a2{animation:a2 16s steps(1) infinite}@keyframes a2{0%{opacity:0}35.62%{opacity:1}53.13%{opacity:0}100%{opacity:0}}
-.a3{animation:a3 16s steps(1) infinite}@keyframes a3{0%{opacity:0}53.13%{opacity:1}70.63%{opacity:0}100%{opacity:0}}
-.a4{animation:a4 16s steps(1) infinite}@keyframes a4{0%{opacity:0}70.63%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a5{animation:a5 16s steps(1) infinite}@keyframes a5{0%{opacity:1}70.63%{opacity:0}100%{opacity:0}}
-.a6{animation:a6 16s steps(1) infinite}@keyframes a6{0%{opacity:1}70.63%{opacity:0}100%{opacity:0}}
-.a7{animation:a7 16s steps(1) infinite}@keyframes a7{0%{opacity:1}53.13%{opacity:0}100%{opacity:0}}
-.a8{animation:a8 16s steps(1) infinite}@keyframes a8{0%{opacity:1}53.13%{opacity:0}100%{opacity:0}}
-.a9{animation:a9 16s steps(1) infinite}@keyframes a9{0%{opacity:1}35.62%{opacity:0}100%{opacity:0}}
-.a10{animation:a10 16s steps(1) infinite}@keyframes a10{0%{opacity:1}35.62%{opacity:0}100%{opacity:0}}
-.a11{animation:a11 16s steps(1) infinite}@keyframes a11{0%{opacity:1}18.13%{opacity:0}100%{opacity:0}}
-.a12{animation:a12 16s steps(1) infinite}@keyframes a12{0%{opacity:1}18.13%{opacity:0}100%{opacity:0}}
-.a13{animation:a13 16s steps(1) infinite}@keyframes a13{0%{opacity:0}15.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
+.a0{animation:a0 19s steps(1) infinite}@keyframes a0{0%{opacity:1}15.26%{opacity:0}100%{opacity:0}}
+.a1{animation:a1 19s steps(1) infinite}@keyframes a1{0%{opacity:0}15.26%{opacity:1}30.00%{opacity:0}100%{opacity:0}}
+.a2{animation:a2 19s steps(1) infinite}@keyframes a2{0%{opacity:0}30.00%{opacity:1}44.74%{opacity:0}100%{opacity:0}}
+.a3{animation:a3 19s steps(1) infinite}@keyframes a3{0%{opacity:0}44.74%{opacity:1}59.47%{opacity:0}100%{opacity:0}}
+.a4{animation:a4 19s steps(1) infinite}@keyframes a4{0%{opacity:0}59.47%{opacity:1}100%{opacity:1}}
+.a5{animation:a5 19s steps(1) infinite}@keyframes a5{0%{opacity:1}59.47%{opacity:0}100%{opacity:0}}
+.a6{animation:a6 19s steps(1) infinite}@keyframes a6{0%{opacity:1}59.47%{opacity:0}100%{opacity:0}}
+.a7{animation:a7 19s steps(1) infinite}@keyframes a7{0%{opacity:1}44.74%{opacity:0}100%{opacity:0}}
+.a8{animation:a8 19s steps(1) infinite}@keyframes a8{0%{opacity:1}44.74%{opacity:0}100%{opacity:0}}
+.a9{animation:a9 19s steps(1) infinite}@keyframes a9{0%{opacity:1}30.00%{opacity:0}100%{opacity:0}}
+.a10{animation:a10 19s steps(1) infinite}@keyframes a10{0%{opacity:1}30.00%{opacity:0}100%{opacity:0}}
+.a11{animation:a11 19s steps(1) infinite}@keyframes a11{0%{opacity:1}15.26%{opacity:0}100%{opacity:0}}
+.a12{animation:a12 19s steps(1) infinite}@keyframes a12{0%{opacity:1}15.26%{opacity:0}100%{opacity:0}}
+.a13{animation:a13 19s steps(1) infinite}@keyframes a13{0%{opacity:0}12.63%{opacity:1}100%{opacity:1}}
 .w0{animation:w0 .5s steps(2) infinite alternate}@keyframes w0{to{transform:translateX(8px)}}
-.a14{animation:a14 16s steps(1) infinite}@keyframes a14{0%{opacity:0}16.25%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a15{animation:a15 16s steps(1) infinite}@keyframes a15{0%{opacity:0}32.50%{opacity:1}97%{opacity:0}100%{opacity:0}}
+.a14{animation:a14 19s steps(1) infinite}@keyframes a14{0%{opacity:0}13.68%{opacity:1}100%{opacity:1}}
+.a15{animation:a15 19s steps(1) infinite}@keyframes a15{0%{opacity:0}27.37%{opacity:1}100%{opacity:1}}
 .w1{animation:w1 .5s steps(2) infinite alternate}@keyframes w1{to{transform:translateX(8px)}}
-.a16{animation:a16 16s steps(1) infinite}@keyframes a16{0%{opacity:0}33.75%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a17{animation:a17 16s steps(1) infinite}@keyframes a17{0%{opacity:0}50.00%{opacity:1}97%{opacity:0}100%{opacity:0}}
+.a16{animation:a16 19s steps(1) infinite}@keyframes a16{0%{opacity:0}28.42%{opacity:1}100%{opacity:1}}
+.a17{animation:a17 19s steps(1) infinite}@keyframes a17{0%{opacity:0}42.11%{opacity:1}100%{opacity:1}}
 .w2{animation:w2 .5s steps(2) infinite alternate}@keyframes w2{to{transform:translateX(8px)}}
-.a18{animation:a18 16s steps(1) infinite}@keyframes a18{0%{opacity:0}51.25%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.a19{animation:a19 16s steps(1) infinite}@keyframes a19{0%{opacity:0}67.50%{opacity:1}97%{opacity:0}100%{opacity:0}}
+.a18{animation:a18 19s steps(1) infinite}@keyframes a18{0%{opacity:0}43.16%{opacity:1}100%{opacity:1}}
+.a19{animation:a19 19s steps(1) infinite}@keyframes a19{0%{opacity:0}56.84%{opacity:1}100%{opacity:1}}
 .w3{animation:w3 .5s steps(2) infinite alternate}@keyframes w3{to{transform:translateX(8px)}}
-.a20{animation:a20 16s steps(1) infinite}@keyframes a20{0%{opacity:0}68.75%{opacity:1}97%{opacity:0}100%{opacity:0}}
-.bot{animation:bot 16s infinite}@keyframes bot{0.00%{transform:translateX(-120px);animation-timing-function:steps(60)}14.37%{transform:translateX(356px);animation-timing-function:steps(1)}21.25%{transform:translateX(356px);animation-timing-function:steps(25)}31.87%{transform:translateX(556px);animation-timing-function:steps(1)}38.75%{transform:translateX(556px);animation-timing-function:steps(25)}49.38%{transform:translateX(756px);animation-timing-function:steps(1)}56.25%{transform:translateX(756px);animation-timing-function:steps(25)}66.88%{transform:translateX(956px);animation-timing-function:steps(1)}73.75%{transform:translateX(956px);animation-timing-function:steps(34)}91.25%{transform:translateX(1230px);animation-timing-function:steps(1)}100.00%{transform:translateX(1230px);animation-timing-function:steps(1)}}
+.a20{animation:a20 19s steps(1) infinite}@keyframes a20{0%{opacity:0}57.89%{opacity:1}100%{opacity:1}}
+.bot{animation:bot 19s infinite}@keyframes bot{0.00%{transform:translateX(-120px);animation-timing-function:steps(60)}12.11%{transform:translateX(356px);animation-timing-function:steps(1)}17.89%{transform:translateX(356px);animation-timing-function:steps(25)}26.84%{transform:translateX(556px);animation-timing-function:steps(1)}32.63%{transform:translateX(556px);animation-timing-function:steps(25)}41.58%{transform:translateX(756px);animation-timing-function:steps(1)}47.37%{transform:translateX(756px);animation-timing-function:steps(25)}56.32%{transform:translateX(956px);animation-timing-function:steps(1)}62.11%{transform:translateX(956px);animation-timing-function:steps(34)}76.84%{transform:translateX(1230px);animation-timing-function:steps(1)}100.00%{transform:translateX(1230px);animation-timing-function:steps(1)}}
 .fa{animation:fa .4s steps(1) infinite}@keyframes fa{0%{opacity:1}50%{opacity:0}100%{opacity:0}}.fb{animation:fb .4s steps(1) infinite}@keyframes fb{0%{opacity:0}50%{opacity:1}100%{opacity:1}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
