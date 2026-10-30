@@ -23,10 +23,12 @@ function fail(message: string): never {
   process.exit(2);
 }
 
-function intOption(value: string | undefined, name: string): number | undefined {
+function intOption(value: string | undefined, name: string, minimum = 0): number | undefined {
   if (value === undefined) return undefined;
   const number = Number(value);
-  if (!Number.isInteger(number) || number < 0) fail(`--${name} must be a whole number`);
+  if (!Number.isInteger(number) || number < minimum) {
+    fail(`--${name} must be a whole number${minimum > 0 ? ` of at least ${minimum}` : ''}`);
+  }
   return number;
 }
 
@@ -57,9 +59,9 @@ const [url] = positionals;
 if (positionals.length !== 1 || url === undefined) fail('Give exactly one URL.');
 if (values.format !== 'md' && values.format !== 'json') fail('--format must be md or json');
 
-const pages = intOption(values.pages, 'pages');
+const pages = intOption(values.pages, 'pages', 1);
 const failUnder = intOption(values['fail-under'], 'fail-under');
-const timeoutMs = intOption(values.timeout, 'timeout');
+const timeoutMs = intOption(values.timeout, 'timeout', 1);
 
 let report: AuditReport;
 try {
