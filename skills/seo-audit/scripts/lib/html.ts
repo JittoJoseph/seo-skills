@@ -43,7 +43,7 @@ const NAMED_ENTITIES: Record<string, string> = {
 export function decodeEntities(text: string | null | undefined): string {
   if (!text || !text.includes('&')) return text ?? '';
   return text.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, body) => {
-    if (body[0] !== '#') return NAMED_ENTITIES[body.toLowerCase()] ?? match;
+    if (body[0] !== '#') return Object.hasOwn(NAMED_ENTITIES, body.toLowerCase()) ? NAMED_ENTITIES[body.toLowerCase()] : match;
     const hex = body[1] === 'x' || body[1] === 'X';
     const code = parseInt(body.slice(hex ? 2 : 1), hex ? 16 : 10);
     if (!Number.isFinite(code) || code < 0 || code > 0x10ffff) return match;
@@ -91,7 +91,7 @@ function hasBoundAttribute(attrs: Attributes, name: string): boolean {
 }
 
 function findCloseTag(source: string, name: string, from: number): number {
-  const pattern = new RegExp(`</${name}`, 'gi');
+  const pattern = new RegExp(`</${name}(?=[\\t\\n\\f\\r />])`, 'gi');
   pattern.lastIndex = from;
   const match = pattern.exec(source);
   return match ? match.index : source.length;

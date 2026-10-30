@@ -118,3 +118,15 @@ test('stays fast on a very large page', () => {
   assert.equal(page.anchors.length, 100_000);
   assert.ok(performance.now() - started < 5000);
 });
+
+
+test('raw text closes only at a matching end tag boundary', () => {
+  const page = parseHtml('<script>const x = "</scripture><h1>Fake</h1>";</script><h1>Real</h1>');
+  assert.deepEqual(page.h1s, ['Real']);
+  assert.equal(page.scripts[0].inlineBytes, 'const x = "</scripture><h1>Fake</h1>";'.length);
+  assert.deepEqual(parseHtml('<title>A </titlecase> B</title>').titles, ['A </titlecase> B']);
+});
+
+test('unknown entity names cannot read inherited object properties', () => {
+  assert.equal(decodeEntities('&constructor; &__proto__; &toString;'), '&constructor; &__proto__; &toString;');
+});
