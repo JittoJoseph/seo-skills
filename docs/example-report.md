@@ -160,7 +160,7 @@ Platform: not detected.
 
 | Page | Status | Words | Time (ms) | Title |
 |---|---:|---:|---:|---|
-| `https://example.com/` | 200 | 25 | 125 | `Example Domain` |
+| `https://example.com/` | 200 | 25 | 143 | `Example Domain` |
 
 ## What this does not cover
 
