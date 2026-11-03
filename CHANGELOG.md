@@ -2,6 +2,20 @@
 
 All notable changes to this project are recorded here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 - 2026-11-03
+
+- `shopify-seo` skill: audit a Shopify store and get each fix as a Shopify admin path or theme change.
+- Prompt map: turn shoppers' own words into the questions they ask AI assistants, check which ones the store answers, and give one fix per gap.
+- Five Shopify checks, which run only on Shopify stores:
+  - a password page
+  - Product JSON-LD missing from the HTML, for example when an app adds it with JavaScript
+  - product links that go through collection URLs
+  - a custom robots.txt.liquid that dropped Shopify's default rules
+  - a store still on its myshopify.com domain
+- Shopify detection now also reads the `powered-by: Shopify` header.
+- `/seo shopify` and `/seo prompts` commands.
+- Six Shopify guides in `docs/shopify`.
+
 ## 0.1.1 - 2026-10-30
 
 - Install as a plugin in Claude Code and Codex.

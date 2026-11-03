@@ -1,7 +1,7 @@
 {
   "name": "seo-skills",
-  "version": "0.1.1",
-  "description": "SEO skills for AI coding agents. Audit any site from its URL and get a score, the fixes that matter and the evidence behind each one.",
+  "version": "0.2.0",
+  "description": "SEO skills for Shopify stores and any website. Audit from a URL and get a score, the fixes that matter and the evidence behind each one, plus a prompt map for AI answers.",
   "author": {
     "name": "Jitto Joseph",
     "url": "https://github.com/JittoJoseph"
@@ -9,5 +9,5 @@
   "homepage": "https://github.com/JittoJoseph/seo-skills",
   "repository": "https://github.com/JittoJoseph/seo-skills",
   "license": "MIT",
-  "keywords": ["seo", "seo-audit", "technical-seo", "agent-skills", "ai-search"]
+  "keywords": ["seo", "shopify", "shopify-seo", "seo-audit", "technical-seo", "agent-skills", "ai-search"]
 }
