@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="assets/hero.svg" alt="SEO Skills: free SEO audits for Shopify stores. A hand-drawn sketch shows your store, then your AI agent running /seo shopify, then a report card that scores 87 out of 100, with no product schema and missing pages that go home as failures, and 32 checks passing." width="100%">
+  <img src="assets/hero.svg" alt="SEO Skills for Shopify. Is your store readable by AI? Free, open-source SEO audits for Shopify stores, run from Claude Code, Codex or Cursor. A score ring fills to 87 out of 100, grade B, for a demo Shopify store." width="100%">
 </h1>
 
 <p align="center">
@@ -57,7 +57,7 @@ Your agent turns your customers' own words from reviews and support emails into 
 
 We built a demo store the way many Shopify stores are set up: a Dawn-style theme, a schema app, a redirect app and a custom robots.txt. It looks fine in a browser, and **it scores 87 out of 100 (B)**:
 
-<img src="assets/demo.svg" alt="A hand-drawn report card for a demo Shopify store: 87 out of 100, grade B, with 4 failed checks, 2 warnings and 32 passed. Fix first: product pages have no Product data in the HTML, missing pages redirect home with a 200, the homepage has no H1, product images have no alt text, and robots.txt dropped Shopify&#39;s default rules." width="100%">
+<img src="assets/demo.svg" alt="Fix these first: results from /seo shopify on a demo Shopify store, 12 pages checked. Failures: product schema missing from the HTML, missing pages that redirect home, no H1 on the homepage, and images without alt text. Warning: robots.txt dropped Shopify&#39;s defaults. Score 87 out of 100, grade B, with 4 failed, 2 warnings and 32 passed. The fix for the first issue is {{ product | structured_data }}." width="100%">
 
 These are real results, showing the top five fixes. The worst one is invisible in a browser: the schema app adds the product's price and stock with JavaScript, so crawlers that read only the HTML never see them. The full report also explains why each finding matters and how to fix it. The store's code is in [examples/demo-shopify-store.ts](examples/demo-shopify-store.ts), so you can run the same audit yourself. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
 
@@ -193,3 +193,5 @@ To work on the code, see [CONTRIBUTING.md](CONTRIBUTING.md). For security proble
 ## License
 
 [MIT](LICENSE) © [Jitto Joseph](https://github.com/JittoJoseph)
+
+Shopify and the Shopify logo are trademarks of [Shopify Inc.](https://www.shopify.com) SEO Skills is an independent open-source project and is not affiliated with or endorsed by Shopify.
