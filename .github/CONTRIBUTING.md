@@ -34,7 +34,7 @@ npm run validate
 1. Add it to `CHECKS` in `skills/seo-audit/scripts/lib/checks.ts`, with its reason and fix.
 2. Add a test in `tests/`, including a case that should not trigger it.
 3. Run `npm run docs` to regenerate `references/checks.md`.
-4. Add a line to `CHANGELOG.md`.
+4. Add a line to `docs/CHANGELOG.md`.
 
 ## Adding a skill
 

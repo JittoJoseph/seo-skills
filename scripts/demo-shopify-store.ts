@@ -8,7 +8,7 @@
 // - product cards link through /collections/.../products/...
 //
 // Run it, then audit it:
-//   node examples/demo-shopify-store.ts
+//   node scripts/demo-shopify-store.ts
 //   node skills/seo-audit/scripts/audit.ts http://localhost:4180 --pages 12
 import { createServer } from 'node:http';
 

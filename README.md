@@ -1,16 +1,33 @@
 <h1 align="center">
-  <img src="assets/hero.svg" alt="SEO Skills for Shopify. Is your store readable by AI? Free, open-source SEO audits for Shopify stores, run from Claude Code, Codex or Cursor. A score ring fills to 87 out of 100, grade B, for a demo Shopify store." width="100%">
+  <img src=".github/assets/hero.svg" alt="SEO Skills for Shopify. Is your store readable by AI? Free, open-source SEO audits for Shopify stores, run from Claude Code, Codex or Cursor. A score ring fills to 87 out of 100, grade B, for a demo Shopify store." width="100%">
 </h1>
 
 <p align="center">
-  Free, open-source SEO audits for Shopify stores and any website, inside Claude Code,<br>
-  Codex and Cursor. See what Google and AI crawlers can actually read, and what to fix first.
+  <a href="https://github.com/JittoJoseph/seo-skills/releases/latest"><img src="https://img.shields.io/github/v/release/JittoJoseph/seo-skills?style=flat-square&label=release&color=95bf47&labelColor=1c2420" alt="Latest release"></a>
+  <a href="https://github.com/JittoJoseph/seo-skills/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/JittoJoseph/seo-skills/ci.yml?branch=main&style=flat-square&label=tests&labelColor=1c2420" alt="Tests"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-95bf47?style=flat-square&labelColor=1c2420" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/node-%E2%89%A522.18-95bf47?style=flat-square&labelColor=1c2420" alt="Node.js 22.18 or newer">
+  <img src="https://img.shields.io/badge/dependencies-0-95bf47?style=flat-square&labelColor=1c2420" alt="No runtime dependencies">
+  <a href="https://github.com/JittoJoseph/seo-skills/stargazers"><img src="https://img.shields.io/github/stars/JittoJoseph/seo-skills?style=flat-square&color=f2c14e&labelColor=1c2420" alt="GitHub stars"></a>
 </p>
 
 <p align="center">
-  <a href="#install">Install</a> ·
+  <a href="#install"><img src="https://img.shields.io/badge/Claude_Code-1c2420?style=for-the-badge" alt="Works with Claude Code"></a>
+  <a href="#install"><img src="https://img.shields.io/badge/Codex-1c2420?style=for-the-badge" alt="Works with Codex"></a>
+  <a href="#install"><img src="https://img.shields.io/badge/Cursor-1c2420?style=for-the-badge" alt="Works with Cursor"></a>
+  <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent_Skills-1c2420?style=for-the-badge" alt="Built on the Agent Skills format"></a>
+</p>
+
+<p align="center">
+  <b>Free, open-source SEO audits for Shopify stores and any website.</b><br>
+  See what Google and AI crawlers can actually read, and what to fix first.
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
   <a href="#for-shopify-stores">Shopify</a> ·
   <a href="#see-it-work">Demo</a> ·
+  <a href="#install">Install</a> ·
   <a href="#what-it-catches">What it catches</a> ·
   <a href="#how-the-score-works">Scoring</a> ·
   <a href="#faq">FAQ</a>
@@ -22,6 +39,23 @@ Point your agent at your store or site and it reads it the way a crawler does. Y
 - **Nothing to set up.** Node runs the TypeScript directly, so there are no packages to install and no build step.
 - **Evidence, not opinions.** Scripted checks produce the findings, so results are repeatable. Your agent explains them.
 - **Works with your agent.** Built on the open [Agent Skills](https://agentskills.io) format, for Claude Code, Codex, Cursor and others that support it.
+
+## Quick start
+
+Install it in Claude Code:
+
+```text
+/plugin marketplace add JittoJoseph/seo-skills
+/plugin install seo-skills@seo-skills
+```
+
+Then ask:
+
+```text
+Audit my Shopify store https://yourstore.com
+```
+
+For Codex, Cursor and other agents, see [Install](#install).
 
 ## For Shopify stores
 
@@ -43,6 +77,9 @@ The audit detects Shopify and adds checks that generic SEO tools miss:
 
 Every finding comes with the fix: the admin path or the theme file to change.
 
+> [!TIP]
+> No Shopify app, account or admin access is needed. The audit reads your public storefront, the same way Google and AI crawlers do.
+
 **Get recommended by ChatGPT, not just ranked on Google.** Shoppers ask AI assistants about their situation, such as "cooling sheets for hot sleepers under $150 that ship to Canada", not a two-word keyword. Ask for a prompt map:
 
 ```text
@@ -57,9 +94,9 @@ Your agent turns your customers' own words from reviews and support emails into 
 
 We built a demo store the way many Shopify stores are set up: a Dawn-style theme, a schema app, a redirect app and a custom robots.txt. It looks fine in a browser, and **it scores 87 out of 100 (B)**:
 
-<img src="assets/demo.svg" alt="Fix these first: results from /seo shopify on a demo Shopify store, 12 pages checked. Failures: product schema missing from the HTML, missing pages that redirect home, no H1 on the homepage, and images without alt text. Warning: robots.txt dropped Shopify&#39;s defaults. Score 87 out of 100, grade B, with 4 failed, 2 warnings and 32 passed. The fix for the first issue is {{ product | structured_data }}." width="100%">
+<img src=".github/assets/demo.svg" alt="Fix these first: results from /seo shopify on a demo Shopify store, 12 pages checked. Failures: product schema missing from the HTML, missing pages that redirect home, no H1 on the homepage, and images without alt text. Warning: robots.txt dropped Shopify&#39;s defaults. Score 87 out of 100, grade B, with 4 failed, 2 warnings and 32 passed. The fix for the first issue is {{ product | structured_data }}." width="100%">
 
-These are real results, showing the top five fixes. The worst one is invisible in a browser: the schema app adds the product's price and stock with JavaScript, so crawlers that read only the HTML never see them. The full report also explains why each finding matters and how to fix it. The store's code is in [examples/demo-shopify-store.ts](examples/demo-shopify-store.ts), so you can run the same audit yourself. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
+These are real results, showing the top five fixes. The worst one is invisible in a browser: the schema app adds the product's price and stock with JavaScript, so crawlers that read only the HTML never see them. The full report also explains why each finding matters and how to fix it. The store's code is in [scripts/demo-shopify-store.ts](scripts/demo-shopify-store.ts), so you can run the same audit yourself. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
 
 ## Install
 
@@ -188,7 +225,9 @@ Yes. The Shopify checks only run on Shopify stores. Every other check works on a
 
 Found a wrong result or a missing check? [Open an issue](https://github.com/JittoJoseph/seo-skills/issues/new/choose) with the URL and what you expected. False positives are especially useful to report.
 
-To work on the code, see [CONTRIBUTING.md](CONTRIBUTING.md). For security problems, see [SECURITY.md](SECURITY.md).
+If the audit saved you an app subscription, a star helps other store owners find it.
+
+To work on the code, see [CONTRIBUTING.md](.github/CONTRIBUTING.md). For security problems, see [SECURITY.md](.github/SECURITY.md).
 
 ## License
 

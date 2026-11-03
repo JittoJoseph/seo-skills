@@ -24,6 +24,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="${GITHUB_REF_NAME#v}"
-          awk -v v="$version" '$0 ~ "^## " v { found = 1; next } /^## / { found = 0 } found' CHANGELOG.md > notes.md
+          awk -v v="$version" '$0 ~ "^## " v { found = 1; next } /^## / { found = 0 } found' docs/CHANGELOG.md > notes.md
           test -s notes.md
           gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag

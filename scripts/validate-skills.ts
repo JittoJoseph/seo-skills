@@ -72,9 +72,9 @@ function validateRepo(): string[] {
     if (version !== pkg.version) errors.push(`${manifest} has version ${version}, expected ${pkg.version}`);
   }
 
-  const changelog = readFileSync(join(ROOT, 'CHANGELOG.md'), 'utf8');
+  const changelog = readFileSync(join(ROOT, 'docs/CHANGELOG.md'), 'utf8');
   if (!changelog.includes(`## ${pkg.version}`) && !changelog.includes(`## [${pkg.version}]`)) {
-    errors.push(`CHANGELOG.md has no entry for ${pkg.version}`);
+    errors.push(`docs/CHANGELOG.md has no entry for ${pkg.version}`);
   }
 
   const normalize = (text: string): string => text.replace(/\r\n/g, '\n');

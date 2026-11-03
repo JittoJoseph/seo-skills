@@ -2,6 +2,11 @@
 
 All notable changes to this project are recorded here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Tidier repository root: `CONTRIBUTING.md`, `SECURITY.md` and the README media moved to `.github/`, this changelog to `docs/`, and the demo store to `scripts/demo-shopify-store.ts`.
+- README: badges, a quick start and links to the agents it works with.
+
 ## 0.2.1 - 2026-11-03
 
 - A page found through links whose canonical points at a sitemap URL is no longer flagged. This is how Shopify handles `/collections/.../products/...` copies of a product.
