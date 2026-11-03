@@ -3,24 +3,55 @@
 </h1>
 
 <p align="center">
-  Free SEO audits inside your AI coding agent. Find out what search engines<br>
-  and AI crawlers can actually read, and what to fix first.
+  Free, open-source SEO audits for Shopify stores and any website, inside Claude Code,<br>
+  Codex and Cursor. See what Google and AI crawlers can actually read, and what to fix first.
 </p>
 
 <p align="center">
   <a href="#install">Install</a> ·
+  <a href="#for-shopify-stores">Shopify</a> ·
   <a href="#see-it-work">Demo</a> ·
   <a href="#what-it-catches">What it catches</a> ·
   <a href="#how-the-score-works">Scoring</a> ·
-  <a href="#roadmap">Roadmap</a>
+  <a href="#faq">FAQ</a>
 </p>
 
-Point your agent at any URL and it reads the site the way a crawler does. You get a score, the fixes that matter most, and the evidence behind every finding.
+Point your agent at your store or site and it reads it the way a crawler does. You get a score, the fixes that matter most, and the evidence behind every finding. On a Shopify store you also get Shopify checks, with fixes in Shopify admin and theme terms.
 
-- **Free and open source.** MIT licensed, with no account and no API keys.
+- **Free and open source.** MIT licensed, with no account, no API keys and no monthly app fee.
 - **Nothing to set up.** Node runs the TypeScript directly, so there are no packages to install and no build step.
 - **Evidence, not opinions.** Scripted checks produce the findings, so results are repeatable. Your agent explains them.
 - **Works with your agent.** Built on the open [Agent Skills](https://agentskills.io) format, for Claude Code, Codex, Cursor and others that support it.
+
+## For Shopify stores
+
+Ask your agent:
+
+```text
+Audit my Shopify store https://yourstore.com
+```
+
+The audit detects Shopify and adds checks that generic SEO tools miss:
+
+| Check | What it finds |
+|---|---|
+| Store is open | A password page that hides the whole store from Google and AI crawlers |
+| Product data in the HTML | Product JSON-LD that an app adds with JavaScript, so crawlers that don't run JavaScript never see the price or stock |
+| Product links | Themes that link products through `/collections/.../products/...`, creating a duplicate URL per collection |
+| robots.txt defaults | A custom `robots.txt.liquid` that dropped Shopify's rules for sorted and filtered collections |
+| Own domain | A store still served from `yourstore.myshopify.com` |
+
+Every finding comes with the fix: the admin path or the theme file to change.
+
+**Get recommended by ChatGPT, not just ranked on Google.** Shoppers ask AI assistants about their situation, such as "cooling sheets for hot sleepers under $150 that ship to Canada", not a two-word keyword. Ask for a prompt map:
+
+```text
+Build a prompt map for my Shopify store https://yourstore.com
+```
+
+Your agent turns your customers' own words from reviews and support emails into the questions they ask AI. It checks which ones your pages answer and gives one fix per gap. See [how it works](skills/shopify-seo/references/prompt-map.md).
+
+**Shopify guides:** [SEO checklist](docs/shopify/seo-checklist.md) · [products not indexed](docs/shopify/products-not-indexed.md) · [duplicate product URLs](docs/shopify/duplicate-product-urls.md) · [robots.txt](docs/shopify/robots-txt.md) · [Product schema](docs/shopify/product-schema.md) · [ChatGPT visibility](docs/shopify/chatgpt-visibility.md)
 
 ## See it work
 
@@ -89,7 +120,7 @@ Starter templates and AI builders leave behind problems that are easy to miss, b
 | The sitemap lists `localhost` | Crawlers get pointed at the wrong site |
 | `/robots.txt` returns your app's HTML | Crawlers don't get real crawl rules or a sitemap location |
 
-In total it runs 38 checks across six areas:
+In total it runs 43 checks across seven areas:
 
 | Area | What it looks at |
 |---|---|
@@ -99,6 +130,7 @@ In total it runs 38 checks across six areas:
 | Structured data | Whether JSON-LD exists and is valid |
 | Social sharing | Open Graph tags and whether the share image loads |
 | AI search | Whether AI search crawlers are allowed in robots.txt |
+| Shopify | Password page, Product data in the HTML, collection product links, robots.txt defaults, domain. Only on Shopify stores |
 
 See every check, with its weight and how to fix it, in [checks.md](skills/seo-audit/references/checks.md).
 
@@ -129,9 +161,28 @@ Node.js 22.18 or newer. Without Node, the skill falls back to a manual review wi
 
 - [x] `/seo audit`: audit any site from its URL
 - [x] Plugin installs for Claude Code and Codex
-- [ ] `/seo fix`: have your agent fix the findings in your code
+- [x] `/seo shopify`: SEO checks and fixes for Shopify stores
+- [x] `/seo prompts`: a prompt map of what shoppers ask AI assistants
+- [ ] `/seo fix`: have your agent fix the findings in your theme or code
+- [ ] More Shopify checks: collection content, variant URLs, Markets and hreflang
 - [ ] Framework-specific fixes for Next.js, Astro, Nuxt and WordPress
-- [ ] `/seo shopify`: SEO checks and fixes for Shopify stores
+
+## FAQ
+
+**Is there a free, open-source Shopify SEO audit tool?**
+Yes. SEO Skills is MIT licensed and runs inside Claude Code, Codex, Cursor and other agents that support Agent Skills. It needs no Shopify app, no account and no API key. It reads your store's public pages the way a crawler does.
+
+**Does it need access to my Shopify admin?**
+No. It audits the public storefront. Your agent then gives you the admin steps or the theme change for each fix. If your theme code is in your project, it can make the theme changes after you agree.
+
+**Do I still need a Shopify SEO app?**
+Maybe not. Shopify already makes your sitemap, canonical tags, robots.txt and `llms.txt`. Run the audit first, then pick an app only for a job it shows you need, such as bulk-editing meta descriptions. See the [checklist](docs/shopify/seo-checklist.md).
+
+**How do I get my Shopify store into ChatGPT answers?**
+Check that your store is eligible for Shopify Catalog, that AI search crawlers can read your pages, and that your product data is in the HTML. Then build a prompt map to find the questions shoppers ask that your pages don't answer. See [ChatGPT visibility](docs/shopify/chatgpt-visibility.md).
+
+**Does it work on sites that aren't on Shopify?**
+Yes. The Shopify checks only run on Shopify stores. Every other check works on any website, including a local dev server.
 
 ## Contributing
 
