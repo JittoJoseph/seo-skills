@@ -42,6 +42,7 @@ export interface AuditContext {
   start: string;
   finalUrl: string;
   isPrivate: boolean;
+  platforms: string[];
   home: Page;
   pages: Page[];
   robots: { response: FetchResponse; isHtml: boolean; parsed: Robots | null };

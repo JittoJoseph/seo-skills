@@ -8,7 +8,7 @@ interface Probe {
 }
 
 const SIGNATURES: [string, (probe: Probe) => unknown][] = [
-  ['Shopify', (s) => s.has('cdn.shopify.com') || s.has('Shopify.theme') || s.header('x-shopid') || s.header('x-shopify-stage')],
+  ['Shopify', (s) => s.has('cdn.shopify.com') || s.has('Shopify.theme') || s.header('x-shopid') || s.header('x-shopify-stage') || /shopify/i.test(s.header('powered-by') ?? '')],
   ['WordPress', (s) => s.has('/wp-content/') || s.has('/wp-includes/') || s.generator(/wordpress/i)],
   ['Webflow', (s) => s.has('data-wf-site') || s.generator(/webflow/i)],
   ['Wix', (s) => s.has('static.wixstatic.com') || s.generator(/wix\.com/i)],
