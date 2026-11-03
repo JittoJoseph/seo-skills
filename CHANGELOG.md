@@ -2,6 +2,12 @@
 
 All notable changes to this project are recorded here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## 0.2.1 - 2026-11-03
+
+- A page found through links whose canonical points at a sitemap URL is no longer flagged. This is how Shopify handles `/collections/.../products/...` copies of a product.
+- Pages whose canonical points elsewhere are no longer counted as duplicate titles or descriptions.
+- New README media: a demo Shopify store, with its code in `examples/demo-shopify-store.ts` so the result can be reproduced.
+
 ## 0.2.0 - 2026-11-03
 
 - `shopify-seo` skill: audit a Shopify store and get each fix as a Shopify admin path or theme change.
