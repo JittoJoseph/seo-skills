@@ -14,5 +14,5 @@
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["skills/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"]
+  "include": ["skills/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts", "examples/**/*.ts"]
 }
