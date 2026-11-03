@@ -109,7 +109,9 @@ function perPage(
 }
 
 function duplicates(ctx: AuditContext, valueOf: (page: Page) => string | null, label: string): CheckOutcome {
-  const pages = htmlPages(ctx);
+  // A page whose canonical points elsewhere is a declared duplicate, so it is
+  // expected to share its title and description with the canonical page.
+  const pages = htmlPages(ctx).filter((page) => !page.canonicalResolved || normalizeUrl(page.canonicalResolved) === normalizeUrl(page.url));
   if (pages.length < 2) return skip('Needs at least 2 pages');
   const seen = new Map<string, Page[]>();
   for (const page of pages) {
@@ -447,6 +449,7 @@ export const CHECKS: Check[] = [
     fix: 'Build each canonical from the current path, not from a fixed site URL.',
     run(ctx) {
       const homeUrl = normalizeUrl(ctx.finalUrl);
+      const sitemapUrls = new Set(ctx.sitemap.urls.map(normalizeUrl));
       return perPage(
         ctx,
         (page) => {
@@ -455,6 +458,9 @@ export const CHECKS: Check[] = [
           const target = normalizeUrl(canonical);
           if (target === normalizeUrl(page.url)) return null;
           if (!page.isHome && target === homeUrl) return `canonical points at the homepage`;
+          // A duplicate URL found through links, such as Shopify's
+          // /collections/x/products/y, should point at the sitemap's URL.
+          if (!page.fromSitemap && sitemapUrls.has(target)) return null;
           return { problem: `canonical points at ${canonical}`, soft: true };
         },
         { homeCritical: false },
