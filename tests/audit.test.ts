@@ -143,6 +143,8 @@ const sites: Record<string, Fixture> = {
     const card = '<a href="/collections/shirts/products/blue-shirt">Blue</a><a href="/products/red-shirt">Red</a>';
     if (path === '/') return shop('Acme shirts and tees', card);
     if (path === '/collections/shirts') return shop('Shirts collection page', card);
+    // Shopify serves a collection copy of each product with a canonical to /products/.
+    if (path === '/collections/shirts/products/blue-shirt') return shop('Blue shirt in soft cotton', '', `<link rel="canonical" href="${base}/products/blue-shirt">`);
     if (path === '/products/blue-shirt') {
       // The theme adds Product data with JavaScript, which crawlers do not run.
       return shop('Blue shirt in soft cotton', '', `<script>const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = '{"@type":"Product"}';</script>`);
@@ -236,6 +238,13 @@ test('a Shopify store gets the Shopify checks', async () => {
   assert.equal(find(report, 'shopify-product-links').status, 'warn');
   assert.match(find(report, 'shopify-product-links').evidence[0], /\/collections\/shirts\/products\/blue-shirt/);
   assert.equal(find(report, 'shopify-robots-defaults').status, 'warn');
+});
+
+test('a collection copy of a product that points its canonical at the product is not a problem', async () => {
+  const report = await audit('shopify');
+  assert.ok(report.pages.some((page) => page.url.includes('/collections/shirts/products/blue-shirt')));
+  assert.doesNotMatch(find(report, 'canonical-target').evidence.join(' '), /blue-shirt/);
+  assert.equal(find(report, 'title-unique').status, 'pass');
 });
 
 test('a password-protected Shopify store is capped', async () => {
