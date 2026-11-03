@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="assets/hero.svg" alt="SEO Skills. A little crawler walks past four web pages and scans each one. The pages flip to what crawlers really see, and bugs fall out: empty HTML, no sitemap, fake 200s and no links. The score drops to 58 out of 100, a grade D, the real result for a fresh Vite app." width="100%">
+  <img src="assets/hero.svg" alt="SEO Skills. A little crawler walks past four pages of a Shopify store and scans each one. The pages flip to what crawlers really see, and bugs fall out: no H1 on the homepage, no product schema in the HTML, images with no alt text, and deleted pages that redirect home. The score drops to 87 out of 100, a grade B, the real result for a demo Shopify store." width="100%">
 </h1>
 
 <p align="center">
@@ -55,11 +55,11 @@ Your agent turns your customers' own words from reviews and support emails into 
 
 ## See it work
 
-We created a fresh app with `npm create vite`, built it, and audited it. It looks fine in a browser, and **it scores 58 out of 100**:
+We built a demo store the way many Shopify stores are set up: a Dawn-style theme, a schema app, a redirect app and a custom robots.txt. It looks fine in a browser, and **it scores 87 out of 100 (B)**:
 
-<img src="assets/demo.svg" alt="Results for a fresh npm create vite app: 58 out of 100 (grade D), with 9 failed checks, 2 warnings and 13 passed. Top problems: empty HTML, no sitemap, fake 200s, no links and no meta description." width="100%">
+<img src="assets/demo.svg" alt="Results for a demo Shopify store: 87 out of 100 (grade B), with 4 failed checks, 2 warnings and 32 passed. Fix first: no product schema in the HTML, missing pages that redirect home, no H1 on the homepage, images with no alt text, and a robots.txt that dropped Shopify defaults." width="100%">
 
-These are real results, showing the top five fixes. "Fake 200s" means made-up URLs return 200 instead of a real 404. The full report also explains why each finding matters and how to fix it. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
+These are real results, showing the top five fixes. The worst one is invisible in a browser: the schema app adds the product's price and stock with JavaScript, so crawlers that read only the HTML never see them. The full report also explains why each finding matters and how to fix it. The store's code is in [examples/demo-shopify-store.ts](examples/demo-shopify-store.ts), so you can run the same audit yourself. See a [complete example report](docs/example-report.md), which a workflow keeps up to date.
 
 ## Install
 
