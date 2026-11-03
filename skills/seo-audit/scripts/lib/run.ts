@@ -285,10 +285,12 @@ export async function runAudit(input: string, options: { pages?: number; timeout
     }
   }
 
+  const platforms = detectPlatforms(homeResponse.text, homeResponse.headers, metaContent(home.parsed, 'generator'));
   const ctx: AuditContext = {
     start,
     finalUrl,
     isPrivate,
+    platforms,
     home,
     pages,
     robots,
@@ -323,13 +325,12 @@ export async function runAudit(input: string, options: { pages?: number; timeout
     };
   });
 
-  const generator = metaContent(home.parsed, 'generator');
   return {
     ...base,
     state: 'complete',
     final_url: clean(finalUrl, 500),
     ...scoreResults(results, CATEGORIES),
-    platforms: detectPlatforms(homeResponse.text, homeResponse.headers, generator),
+    platforms,
     sitemap_urls: sitemap.urls.length,
     pages: pages.map((page) => ({
       url: clean(page.url, 300),

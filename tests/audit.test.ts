@@ -133,6 +133,36 @@ const sites: Record<string, Fixture> = {
     if (path === '/robots.txt') return [503, {}, ''];
     return [200, { 'content-type': 'text/html' }, '<html><title>A perfectly fine page title</title><h1>Hi</h1></html>'];
   },
+  // A Shopify store with the problems the Shopify checks look for.
+  shopify(path, base) {
+    const shop = (title: string, body: string, head = '') => [
+      200,
+      { 'content-type': 'text/html', 'powered-by': 'Shopify' },
+      `<html lang="en"><head><title>${title}</title>${head}</head><body><h1>${title}</h1><p>${'Soft cotton shirts made to last. '.repeat(20)}</p>${body}</body></html>`,
+    ] as [number, Record<string, string>, string];
+    const card = '<a href="/collections/shirts/products/blue-shirt">Blue</a><a href="/products/red-shirt">Red</a>';
+    if (path === '/') return shop('Acme shirts and tees', card);
+    if (path === '/collections/shirts') return shop('Shirts collection page', card);
+    if (path === '/products/blue-shirt') {
+      // The theme adds Product data with JavaScript, which crawlers do not run.
+      return shop('Blue shirt in soft cotton', '', `<script>const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = '{"@type":"Product"}';</script>`);
+    }
+    if (path === '/products/red-shirt') {
+      return shop('Red shirt in soft cotton', '', '<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Red shirt","offers":{"@type":"Offer","price":"20.00","availability":"https://schema.org/InStock"}}</script>');
+    }
+    if (path === '/robots.txt') return [200, { 'content-type': 'text/plain' }, `User-agent: *\nDisallow: /cart\nSitemap: ${base}/sitemap.xml\n`];
+    if (path === '/sitemap.xml') {
+      return [200, { 'content-type': 'application/xml' }, `<urlset>${['/', '/collections/shirts', '/products/blue-shirt', '/products/red-shirt'].map((p) => `<url><loc>${base}${p}</loc></url>`).join('')}</urlset>`];
+    }
+    return [404, { 'content-type': 'text/html' }, 'Not found'];
+  },
+  shopifyPassword(path) {
+    if (path === '/') return [302, { location: '/password' }, ''];
+    if (path === '/password') {
+      return [200, { 'content-type': 'text/html' }, '<html lang="en"><head><title>Acme opening soon</title><script>Shopify.theme = {"name":"Dawn"};</script></head><body><h1>Opening soon</h1><p>Enter the store password.</p></body></html>'];
+    }
+    return [404, { 'content-type': 'text/html' }, 'Not found'];
+  },
   injection(path) {
     if (path === '/robots.txt') return [404, {}, ''];
     return [
@@ -187,6 +217,32 @@ test('a well built site scores well and fails nothing', async () => {
   assert.ok(report.score >= 90, `score was ${report.score}`);
   assert.equal(report.pages.length, 3);
   assert.equal(report.cap, null);
+});
+
+test('Shopify checks skip on other sites and leave the score alone', async () => {
+  const report = await audit('good');
+  for (const check of report.checks.filter((item) => item.category === 'Shopify')) assert.equal(check.status, 'skip', check.id);
+  assert.ok(!report.categories.some((category) => category.name === 'Shopify'));
+});
+
+test('a Shopify store gets the Shopify checks', async () => {
+  const report = await audit('shopify');
+  assert.ok(report.platforms.includes('Shopify'));
+  assert.equal(find(report, 'shopify-store-public').status, 'pass');
+  const schema = find(report, 'shopify-product-schema');
+  assert.equal(schema.status, 'fail');
+  assert.match(schema.evidence.join(' '), /\/products\/blue-shirt: no Product JSON-LD in the HTML/);
+  assert.doesNotMatch(schema.evidence.join(' '), /red-shirt/);
+  assert.equal(find(report, 'shopify-product-links').status, 'warn');
+  assert.match(find(report, 'shopify-product-links').evidence[0], /\/collections\/shirts\/products\/blue-shirt/);
+  assert.equal(find(report, 'shopify-robots-defaults').status, 'warn');
+});
+
+test('a password-protected Shopify store is capped', async () => {
+  const report = await audit('shopifyPassword');
+  assert.equal(find(report, 'shopify-store-public').status, 'fail');
+  assert.equal(report.score, 10);
+  assert.match(renderMarkdown(report), /password protected/);
 });
 
 test('tidy tags cannot hide an empty client-rendered page', async () => {

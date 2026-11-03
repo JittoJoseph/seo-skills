@@ -19,6 +19,7 @@ export const CATEGORIES = [
   'Structured data',
   'Social sharing',
   'AI search',
+  'Shopify',
 ];
 
 // Tokens come from each company's crawler documentation.
@@ -80,10 +81,15 @@ const htmlPages = (ctx: AuditContext): Page[] => ctx.pages.filter((page) => page
 function perPage(
   ctx: AuditContext,
   test: (page: Page) => PageProblem,
-  { softOnly = false, homeCritical = true }: { softOnly?: boolean; homeCritical?: boolean } = {},
+  {
+    softOnly = false,
+    homeCritical = true,
+    only = () => true,
+    none = 'No HTML pages to check',
+  }: { softOnly?: boolean; homeCritical?: boolean; only?: (page: Page) => boolean; none?: string } = {},
 ): CheckOutcome {
-  const pages = htmlPages(ctx);
-  if (pages.length === 0) return skip('No HTML pages to check');
+  const pages = htmlPages(ctx).filter(only);
+  if (pages.length === 0) return skip(none);
   const bad: { page: Page; problem: string; soft: boolean }[] = [];
   for (const page of pages) {
     const result = test(page);
@@ -145,6 +151,59 @@ function parseJsonLd(page: Page): { types: string[]; errors: string[] } {
     }
   }
   return { types: [...types], errors };
+}
+
+// Shopify checks only apply to Shopify stores, so they skip elsewhere and
+// never change the score of other sites.
+const isShopify = (ctx: AuditContext): boolean => ctx.platforms.includes('Shopify');
+
+// Matches /products/handle, with or without a market prefix such as /en-ca.
+const PRODUCT_PATH = /^(\/[a-z]{2}(-[a-z0-9]{2,4})?)?\/products\/[^/]+\/?$/i;
+const COLLECTION_PRODUCT_PATH = /\/collections\/[^/]+\/products\/[^/]+/i;
+
+const pathnameOf = (url: string): string => {
+  try {
+    return new URL(url).pathname;
+  } catch {
+    return '';
+  }
+};
+
+// Reads the Product data a crawler gets in the raw HTML. Offers can sit on the
+// product itself or on each variant of a ProductGroup.
+function productSchema(page: Page): { found: boolean; offers: number; priced: boolean; available: boolean } {
+  const result = { found: false, offers: 0, priced: false, available: false };
+  const visitOffer = (offer: unknown): void => {
+    if (Array.isArray(offer)) return offer.forEach(visitOffer);
+    if (!offer || typeof offer !== 'object') return;
+    const record = offer as Record<string, unknown>;
+    result.offers++;
+    const spec = record.priceSpecification as Record<string, unknown> | undefined;
+    if (record.price !== undefined || record.lowPrice !== undefined || spec?.price !== undefined) result.priced = true;
+    if (record.availability) result.available = true;
+  };
+  const visit = (node: unknown): void => {
+    if (Array.isArray(node)) return node.forEach(visit);
+    if (!node || typeof node !== 'object') return;
+    const record = node as Record<string, unknown>;
+    const types = [record['@type']].flat();
+    if (types.includes('Product') || types.includes('ProductGroup')) {
+      result.found = true;
+      visitOffer(record.offers);
+      for (const variant of [record.hasVariant ?? []].flat()) {
+        if (variant && typeof variant === 'object') visitOffer((variant as Record<string, unknown>).offers);
+      }
+    }
+    if (record['@graph']) visit(record['@graph']);
+  };
+  for (const block of page.parsed.jsonLd) {
+    try {
+      visit(JSON.parse(block));
+    } catch {
+      // jsonld-valid reports syntax errors.
+    }
+  }
+  return result;
 }
 
 export const CHECKS: Check[] = [
@@ -761,6 +820,92 @@ export const CHECKS: Check[] = [
       const { llms } = ctx;
       const found = llms.status === 200 && !/text\/html/i.test(llms.headers['content-type'] ?? '');
       return info(found ? 'Found /llms.txt' : 'No /llms.txt');
+    },
+  },
+
+  // Shopify
+  {
+    id: 'shopify-store-public',
+    category: 'Shopify',
+    weight: 10,
+    cap: 10,
+    capReason: 'the store is password protected',
+    title: 'The store is open to visitors',
+    why: 'While a Shopify store has a password page, search engines and AI crawlers only see that page, so no product can be found.',
+    fix: 'In Shopify admin, go to Online Store > Preferences and turn off password protection. On a trial or development store, pick a plan first, because those stores cannot remove the password.',
+    run(ctx) {
+      if (!isShopify(ctx)) return skip('Not a Shopify store');
+      if (/^\/password\/?$/.test(pathnameOf(ctx.finalUrl))) {
+        return { status: 'fail', evidence: ['The homepage redirects to /password'], gateFailed: true };
+      }
+      return pass('The storefront is open');
+    },
+  },
+  {
+    id: 'shopify-custom-domain',
+    category: 'Shopify',
+    weight: 3,
+    title: 'The store uses its own domain',
+    why: 'A store on its myshopify.com address builds its search history on a name it does not own, and shoppers trust it less in results.',
+    fix: 'Connect a domain in Settings > Domains and set it as primary. Shopify then redirects the myshopify.com address to it.',
+    run(ctx) {
+      if (!isShopify(ctx)) return skip('Not a Shopify store');
+      const host = new URL(ctx.finalUrl).hostname;
+      return host.endsWith('.myshopify.com') ? warn(`The store is served from ${host}`) : pass(`Served from ${host}`);
+    },
+  },
+  {
+    id: 'shopify-product-schema',
+    category: 'Shopify',
+    weight: 6,
+    title: 'Product pages have Product data in the HTML',
+    why: 'Google, ChatGPT and other AI shopping tools read price and availability from Product JSON-LD. Many crawlers do not run JavaScript, so data that an app adds in the browser is invisible to them.',
+    fix: 'Output Product JSON-LD in the theme, for example with {{ product | structured_data }} in the product template, and include offers with price and availability. If an app adds the data with JavaScript, switch to one that renders it in the HTML, and keep only one source so the data does not appear twice.',
+    run(ctx) {
+      if (!isShopify(ctx)) return skip('Not a Shopify store');
+      return perPage(
+        ctx,
+        (page) => {
+          const schema = productSchema(page);
+          if (!schema.found) return 'no Product JSON-LD in the HTML';
+          if (schema.offers === 0) return 'Product JSON-LD has no offers';
+          const missing = [schema.priced ? '' : 'price', schema.available ? '' : 'availability'].filter(Boolean);
+          return missing.length > 0 ? { problem: `offers have no ${missing.join(' or ')}`, soft: true } : null;
+        },
+        { homeCritical: false, only: (page) => PRODUCT_PATH.test(pathnameOf(page.url)), none: 'No product pages in the sample' },
+      );
+    },
+  },
+  {
+    id: 'shopify-product-links',
+    category: 'Shopify',
+    weight: 2,
+    title: 'Product links use the canonical /products/ URL',
+    why: 'Many themes link to products through /collections/name/products/handle. Shopify points the canonical tag at /products/handle, but each collection a product is in still adds a duplicate URL for crawlers to fetch.',
+    fix: 'In the theme, link product cards with {{ product.url }} instead of {{ product.url | within: collection }} or within: current_collection. Search snippets such as card-product.liquid for "within".',
+    run(ctx) {
+      if (!isShopify(ctx)) return skip('Not a Shopify store');
+      const links = [...new Set(htmlPages(ctx).flatMap((page) => page.internalLinks))].filter((url) => /\/products\/[^/?#]+/i.test(pathnameOf(url)));
+      if (links.length === 0) return skip('No product links in the sampled pages');
+      const scoped = links.filter((url) => COLLECTION_PRODUCT_PATH.test(pathnameOf(url)));
+      if (scoped.length === 0) return pass(`${links.length} product link(s) use /products/ URLs`);
+      return warn(`${scoped.length} of ${links.length} product links go through a collection, for example ${pathOf(scoped[0])}`);
+    },
+  },
+  {
+    id: 'shopify-robots-defaults',
+    category: 'Shopify',
+    weight: 3,
+    title: 'robots.txt keeps Shopify\'s default rules',
+    why: 'Shopify\'s default robots.txt stops crawlers wasting time on sorted and tag-filtered copies of collection pages. A custom robots.txt.liquid that drops these rules opens thousands of near-duplicate URLs.',
+    fix: 'In the theme\'s robots.txt.liquid, keep the loop over robots.default_groups that outputs Shopify\'s defaults, and add your own rules inside it instead of replacing it with plain text. To go back to the default file, delete robots.txt.liquid.',
+    run(ctx) {
+      if (!isShopify(ctx)) return skip('Not a Shopify store');
+      if (!ctx.robots.parsed) return skip('No robots.txt to read');
+      const probes = ['/collections/all?sort_by=price-ascending', '/collections/all/red+blue'];
+      const open = probes.filter((path) => isAllowed(ctx.robots.parsed, 'Googlebot', path));
+      if (open.length === 0) return pass('Sorted and tag-filtered collection URLs are blocked');
+      return warn(`robots.txt lets crawlers fetch ${open.join(' and ')}`);
     },
   },
 ];
