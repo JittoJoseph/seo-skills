@@ -155,12 +155,17 @@ Platform: not detected.
 - The share image loads: `No og:image on the homepage`
 - AI training crawler policy: `None of these are blocked`
 - llms.txt: `No /llms.txt`
+- The store is open to visitors: `Not a Shopify store`
+- The store uses its own domain: `Not a Shopify store`
+- Product pages have Product data in the HTML: `Not a Shopify store`
+- Product links use the canonical /products/ URL: `Not a Shopify store`
+- robots.txt keeps Shopify's default rules: `Not a Shopify store`
 
 ## Pages checked
 
 | Page | Status | Words | Time (ms) | Title |
 |---|---:|---:|---:|---|
-| `https://example.com/` | 200 | 25 | 143 | `Example Domain` |
+| `https://example.com/` | 200 | 25 | 141 | `Example Domain` |
 
 ## What this does not cover
 
